@@ -501,7 +501,7 @@ public class CyDogsSparky extends CyDogsChassis{
             dropPurplePixel();
         } else { //Right
             RotateLeft(-90,.5,StandardAutonWaitTime);
-            MoveStraight(-164,.5,200);
+            MoveStraight(-60,.5,200);
             dropPurplePixel();
         }
     }
