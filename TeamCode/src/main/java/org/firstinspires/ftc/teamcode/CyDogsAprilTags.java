@@ -436,13 +436,10 @@ public class CyDogsAprilTags
             leftBackPower *= 1;
             rightBackPower *= 1;
         }
-        myOpMode.telemetry.addData("2adjusted left front power:", String.format("%.2f", LFP) + "/" + String.format("%.2f", leftFrontPower));
-        myOpMode.telemetry.addData("adjusted right front power:", String.format("%.2f", RFP) + "/" + String.format("%.2f", rightFrontPower));
+        myOpMode.telemetry.addData("adjusted left front power:", String.format("%.2f", LFP) + "/" + String.format("%.2f", leftFrontPower));
+        myOpMode.telemetry.addData("2adjusted right front power:", String.format("%.2f", RFP) + "/" + String.format("%.2f", rightFrontPower));
         myOpMode.telemetry.addData("adjusted left back power:", String.format("%.2f", LBP) + "/" + String.format("%.2f", leftBackPower));
         myOpMode.telemetry.addData("adjusted right back power:", String.format("%.2f", RBP) + "/" + String.format("%.2f", rightBackPower));
-
-
-
 
         // Send powers to the wheels.
         leftFrontDrive.setPower(leftFrontPower);
