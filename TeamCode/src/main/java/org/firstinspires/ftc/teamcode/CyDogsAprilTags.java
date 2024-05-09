@@ -147,7 +147,7 @@ public class CyDogsAprilTags
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+/*        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -157,14 +157,14 @@ public class CyDogsAprilTags
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+*/
         if (USE_WEBCAM)
             setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
 
         // Wait for driver to press start
-        myOpMode.telemetry.addData("Camera preview on/off", "3 dots, Camera Stream");
-        myOpMode.telemetry.addData(">", "Touch Play to start OpMode");
-        myOpMode.telemetry.update();
+        //myOpMode.telemetry.addData("Camera preview on/off", "3 dots, Camera Stream");
+        //myOpMode.telemetry.addData(">", "Touch Play to start OpMode");
+        //myOpMode.telemetry.update();
     }
 
     public void FindAndDriveToAprilTag(int targetTagID){
@@ -346,12 +346,12 @@ public class CyDogsAprilTags
             // Tell the driver what we see, and what to do.
             if (targetFound) {
             //    myOpMode.telemetry.addData("\n>","HOLD Left-Bumper to Drive to Target\n");
-                myOpMode.telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
-                myOpMode.telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
-                myOpMode.telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
-                myOpMode.telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
+             //   myOpMode.telemetry.addData("Found", "ID %d (%s)", desiredTag.id, desiredTag.metadata.name);
+             //   myOpMode.telemetry.addData("Range",  "%5.1f inches", desiredTag.ftcPose.range);
+             //   myOpMode.telemetry.addData("Bearing","%3.0f degrees", desiredTag.ftcPose.bearing);
+             //   myOpMode.telemetry.addData("Yaw","%3.0f degrees", desiredTag.ftcPose.yaw);
             } else {
-                myOpMode.telemetry.addData("\n>","Drive using joysticks to find valid target\n");
+             //   myOpMode.telemetry.addData("\n>","Drive using joysticks to find valid target\n");
             }
             return desiredTag;
         }
@@ -372,6 +372,8 @@ public class CyDogsAprilTags
                 drive  = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
                 turn   = Range.clip(yawError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN) ;
                 strafe = Range.clip(headingError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
+
+
 
                 myOpMode.telemetry.addData("Auto","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
                 // need to add code here, if close enough, break from loop
@@ -403,19 +405,26 @@ public class CyDogsAprilTags
         max = Math.max(max, Math.abs(leftBackPower));
         max = Math.max(max, Math.abs(rightBackPower));
 
-        myOpMode.telemetry.addData("max power for april tags is:", max);
+        //myOpMode.telemetry.addData("max power for april tags is:", max);
 
         double LFP = leftFrontPower;
         double RFP = rightFrontPower;
         double LBP = leftBackPower;
         double RBP = rightBackPower;
 
+        //Scale the power
+        double maxScale = 0.4;
+     //   leftFrontPower = (leftFrontPower/max) * maxScale;
+     //   rightFrontPower = (rightFrontPower/max) * maxScale;
+     //  leftBackPower = (leftBackPower/max) * maxScale;
+     //   rightBackPower = (rightBackPower/max) * maxScale;
+
         if (max > 1.0) {
             leftFrontPower /= max;
             rightFrontPower /= max;
             leftBackPower /= max;
-            rightBackPower /= max;
-        } else if (max < 0.05) {
+            rightBackPower /= max;  }
+ /*       } else if (max < 0.05) {
             leftFrontPower *= 6;
             rightFrontPower *= 6;
             leftBackPower *= 6;
@@ -435,9 +444,10 @@ public class CyDogsAprilTags
             rightFrontPower *= 1;
             leftBackPower *= 1;
             rightBackPower *= 1;
-        }
+        }  */
+
         myOpMode.telemetry.addData("adjusted left front power:", String.format("%.2f", LFP) + "/" + String.format("%.2f", leftFrontPower));
-        myOpMode.telemetry.addData("2adjusted right front power:", String.format("%.2f", RFP) + "/" + String.format("%.2f", rightFrontPower));
+        myOpMode.telemetry.addData("adjusted right front power:", String.format("%.2f", RFP) + "/" + String.format("%.2f", rightFrontPower));
         myOpMode.telemetry.addData("adjusted left back power:", String.format("%.2f", LBP) + "/" + String.format("%.2f", leftBackPower));
         myOpMode.telemetry.addData("adjusted right back power:", String.format("%.2f", RBP) + "/" + String.format("%.2f", rightBackPower));
 

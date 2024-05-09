@@ -45,7 +45,7 @@ public class CyDogsSparky extends CyDogsChassis{
     public static final int ArmRaiseBeforeElbowMovement = 3400;
     public static final double WristForDriving = 0.46;
     public static final double WristForScoring = 0.76;
-    public static final double ElbowHomePosition = 0.505;
+    public static final double ElbowHomePosition = 0.51;
     public static final double ElbowScoringPosition = 0.76;
     public static final double FingerLeftOpen = 0.4;
     public static final double FingerLeftClosed = 0.5;
@@ -206,7 +206,7 @@ public class CyDogsSparky extends CyDogsChassis{
 
         SwingElbow();
         myOpMode.sleep(800);
-        raiseArmToScore(ArmLow);
+        raiseArmToScore(1650);
         myOpMode.sleep(2000);
         openFingers();
         myOpMode.sleep(400);
@@ -501,7 +501,7 @@ public class CyDogsSparky extends CyDogsChassis{
             dropPurplePixel();
         } else { //Right
             RotateLeft(-90,.5,StandardAutonWaitTime);
-            MoveStraight(-60,.5,200);
+         //   MoveStraight(-10,.5,200);
             dropPurplePixel();
         }
     }
@@ -514,7 +514,7 @@ public class CyDogsSparky extends CyDogsChassis{
         } else if (myPath==Direction.CENTER) {
             // Should be aligned in the center already
         } else {
-            StrafeLeft(OneTileMM+110,.5,StandardAutonWaitTime);
+            StrafeLeft(OneTileMM-90,.5,StandardAutonWaitTime);
         }
     }
 
