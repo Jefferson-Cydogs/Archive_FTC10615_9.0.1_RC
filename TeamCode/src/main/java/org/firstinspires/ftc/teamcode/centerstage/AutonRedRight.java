@@ -98,7 +98,6 @@ public class AutonRedRight extends LinearOpMode {
 
 
 
-
 }
 
 
