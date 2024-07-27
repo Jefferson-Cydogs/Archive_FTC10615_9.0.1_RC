@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.centerstage;
-
+import org.firstinspires.ftc.teamcode.*;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 // checking to see branch
 @Autonomous
+@Disabled
 public class AutonBlueLeft extends LinearOpMode {
 // This is a SHORT side Auton
 SpikeCam.location mySpikeLocation;

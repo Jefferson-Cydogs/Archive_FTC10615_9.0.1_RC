@@ -27,14 +27,15 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.centerstage;
+package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.*;
+
+import org.firstinspires.ftc.teamcode.centerstage.CyDogsSparky;
+
 /*
  * This file contains an example of a Linear "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -64,8 +65,7 @@ import org.firstinspires.ftc.teamcode.*;
  */
 
 @TeleOp
-@Disabled
-public class JavaRidingChassis extends LinearOpMode {
+public class ChassisDriveOnly extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -78,6 +78,7 @@ public class JavaRidingChassis extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+    //    mySparky = new CyDogsSparky(this, CyDogsChassis.Alliance.RED, 300);
 
 
         initializeWheels();
@@ -91,9 +92,6 @@ public class JavaRidingChassis extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             manageChassisDrive(0.8);
-            manageDriverButtons();
-            manageDriverCrossPad();
-            manageDriverTriggersAndBumpers();
             telemetry.update();
         }
     }
@@ -107,10 +105,10 @@ public class JavaRidingChassis extends LinearOpMode {
 
         // Combine the joystick requests for each axis-motion to determine each wheel's power.
         // Set up a variable for each drive wheel to save the power level for telemetry.
-        double leftFrontPower  = axial - lateral - yaw;
-        double rightFrontPower = axial - lateral + yaw;
-        double leftBackPower   = axial + lateral - yaw;
-        double rightBackPower  = axial + lateral + yaw;
+        double leftFrontPower  = axial + lateral + yaw;
+        double rightFrontPower = axial - lateral - yaw;
+        double leftBackPower   = axial - lateral + yaw;
+        double rightBackPower  = axial + lateral - yaw;
 
         // Normalize the values so no wheel power exceeds 100%
         // This ensures that the robot maintains the desired motion.
@@ -178,68 +176,9 @@ public class JavaRidingChassis extends LinearOpMode {
         // when you first test your robot, push the left joystick forward and observe the direction the wheels turn.
         // Reverse the direction (flip FORWARD <-> REVERSE ) of any wheel that runs backward
         // Keep testing until ALL the wheels move the robot forward when you push the left joystick forward.
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
-    }
-
-    private void manageDriverButtons(){
-        if(gamepad1.a)
-        {
-            telemetry.addLine("Driver A/cross is pushed");
-
-        }
-        if(gamepad1.b)
-        {
-            telemetry.addLine("Driver B/circle is pushed");
-        }
-        if(gamepad1.x)
-        {
-            telemetry.addLine("Driver X/square is pushed");
-        }
-        if(gamepad1.y)
-        {
-            telemetry.addLine("Driver Y/triangle is pushed");
-        }
-    }
-
-    private void manageDriverCrossPad(){
-        if(gamepad1.dpad_up)
-        {
-            telemetry.addLine("Driver Dpad Up is pushed");
-        }
-        if(gamepad1.dpad_down)
-        {
-            telemetry.addLine("Driver Dpad Down is pushed");
-        }
-        if(gamepad1.dpad_left)
-        {
-            telemetry.addLine("Driver Dpad Left is pushed");
-        }
-        if(gamepad1.dpad_right)
-        {
-            telemetry.addLine("Driver Dpad Right is pushed");
-        }
-    }
-
-    private void manageDriverTriggersAndBumpers(){
-        if(gamepad1.left_bumper)
-        {
-            telemetry.addLine("Driver Left Bumper is pushed");
-        }
-        if(gamepad1.right_bumper)
-        {
-            telemetry.addLine("Driver Right Bumper is pushed");
-        }
-        if(gamepad1.left_trigger > 0.5)
-        {
-            telemetry.addLine("Driver Left Trigger is pushed");
-        }
-        if(gamepad1.right_trigger > 0.5)
-        {
-            telemetry.addLine("Driver Right Trigger is pushed");
-        }
-
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
     }
 }
