@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.centerstage;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+import org.firstinspires.ftc.teamcode.*;
 @Autonomous
+@Disabled
 public class AutonBlueLeftTest extends LinearOpMode {
 // This is a SHORT side Auton
 SpikeCam.location mySpikeLocation;
@@ -56,7 +58,7 @@ SpikeCam.location mySpikeLocation;
                 mySparky.AutonPlacePurplePixel(mySpikeLocation);
                 if (mySpikeLocation == SpikeCam.location.LEFT) {
                     mySparky.MoveStraight(80, .5, mySparky.StandardAutonWaitTime);
-                    mySparky.raiseArmToScore(CyDogsSparky.ArmMedium);
+                  //  mySparky.raiseArmToScore(CyDogsSparky.ArmMedium);
                     sleep(400);
                 } else {
                     mySparky.MoveStraight(30, .5, mySparky.StandardAutonWaitTime);
@@ -65,7 +67,7 @@ SpikeCam.location mySpikeLocation;
 
                 // First, let's get ourselves straight facing scoring area
                 //   Then, adjust position.  Remember dropping purple pixel moved us back from spike 20mm
-                if (mySpikeLocation == SpikeCam.location.LEFT) {
+              /*  if (mySpikeLocation == SpikeCam.location.LEFT) {
 
                     mySparky.StrafeRight(CyDogsChassis.OneTileMM, .5, mySparky.StandardAutonWaitTime);
                     mySparky.MoveStraight(-175, .5, mySparky.StandardAutonWaitTime);
@@ -91,13 +93,12 @@ SpikeCam.location mySpikeLocation;
 
 
                 mySparky.AdjustToAprilTag(mySpikeLocation,"BlueLeft");
-                //sleep(5000);
                  mySparky.scoreFromDrivingPositionAndReturn();
                 mySparky.MoveStraight(-50,.5,300);
                 mySparky.AutonParkInCorrectSpot(mySpikeLocation, parkingSpot);
                 mySparky.returnArmFromScoring();
                 mySparky.LowerArmAtAutonEnd();
-                mySparky.MoveStraight(100,.5,300);
+                mySparky.MoveStraight(100,.5,300);*/
             }
         }
 
