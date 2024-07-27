@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.centerstage.CyDogsChassis;
+import org.firstinspires.ftc.teamcode.CyDogsChassis;
 
 // The 'extends LinearOpMode' is needed so this code can run the build in op mode code from FIRST.
 //    @Autonomous puts this code in the autonomous category on driver station
@@ -13,7 +13,7 @@ public class AutonTesting extends LinearOpMode {
 
     // This creates a new instance of our robot code that we can use.  We need to pass 'this' into it because 'this'
     //   represents our LinearOpMode, and that lets our robot code access the current op mode
-    org.firstinspires.ftc.teamcode.centerstage.CyDogsChassis myBot = new CyDogsChassis(this);
+    org.firstinspires.ftc.teamcode.CyDogsChassis myBot = new CyDogsChassis(this);
 
     @Override
     public void runOpMode() {
