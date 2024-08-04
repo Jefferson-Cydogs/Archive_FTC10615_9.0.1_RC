@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode.centerstage;
-import org.firstinspires.ftc.teamcode.*;
+import org.firstinspires.ftc.teamcode.core.CyDogsChassis;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
