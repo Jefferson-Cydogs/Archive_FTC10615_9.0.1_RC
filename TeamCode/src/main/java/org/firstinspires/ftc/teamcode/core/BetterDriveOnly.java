@@ -204,9 +204,9 @@ public class BetterDriveOnly extends LinearOpMode {
             // Set robot's clockwise(+) or counter-clockwise(-) rotation power
             Rotate = 0.5 * (0.75 * Math.pow(gamepad1_TriggersValue, 3) + 0.25 * gamepad1_TriggersValue);
             // Set robot's fast move forward(+) or backwards(-) power
-            SlowStraight = 0.8 * gamepad1_LeftStickYValue;
+            SlowStraight = 0.5 * gamepad1_LeftStickYValue;
             // Set robot's fast strafe right(+) or left(-) power
-            SlowStrafe = 0.8 * gamepad1_LeftStickXValue;
+            SlowStrafe = 0.5 * gamepad1_LeftStickXValue;
             FrontLeftWheel.setPower(Straight + SlowStraight + Strafe + SlowStrafe + Rotate);
             FrontRightWheel.setPower((((Straight + SlowStraight) - Strafe) - SlowStrafe) - Rotate);
             BackLeftWheel.setPower((((Straight + SlowStraight) - Strafe) - SlowStrafe) + Rotate);
