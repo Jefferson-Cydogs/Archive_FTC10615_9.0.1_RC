@@ -29,13 +29,15 @@
 
 package org.firstinspires.ftc.teamcode.learning;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.centerstage.CyDogsSparky;
+
 /*
  * This file contains an example of a Linear "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -65,8 +67,7 @@ import org.firstinspires.ftc.teamcode.centerstage.CyDogsSparky;
  */
 
 @TeleOp
-@Disabled
-public class TestAxonServo extends LinearOpMode {
+public class AxonServoTest extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -75,15 +76,19 @@ public class TestAxonServo extends LinearOpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
 
+    private double setPower = 0.5;
+
+    private double setPosition = 0.5;
+
+    public Servo myServo;
     private CyDogsSparky mySparky;
     @Override
     public void runOpMode() {
 
     //    mySparky = new CyDogsSparky(this, CyDogsChassis.Alliance.RED, 300);
-
-
+        AnalogInput analogInput = hardwareMap.get(AnalogInput.class, "ServoPosition");
+        double position;
         initializeWheels();
-        initializeDevices();
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -91,17 +96,91 @@ public class TestAxonServo extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
+        myServo = hardwareMap.get (Servo.class, "Servo");
+
+
+        myServo.setDirection(Servo.Direction.FORWARD);
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            manageChassisDrive(0.8);
+            manageChassisDrive(setPower);
             manageDriverButtons();
-            manageDriverCrossPad();
-            manageDriverTriggersAndBumpers();
+            manageManipulatorButtons();
+            position = analogInput.getVoltage() / 3.3 * 360;
+            telemetry.addData("The servo position ",position);
             telemetry.update();
+
+        }
+    }
+
+    private void manageDriverButtons(){
+        if(gamepad1.a)
+        {
+            setPower-=0.1;
+            if (setPower<0.1){
+                setPower=0.1;}
+            telemetry.addLine("Driver A/cross is pushed");
+            telemetry.addData("new power ",setPower);
+            sleep(200);
+        }
+        if(gamepad1.b)
+        {
+            telemetry.addLine("Driver B/circle is pushed");
+        }
+        if(gamepad1.x)
+        {
+            setPower-=0.1;
+            if (setPower<0.1){
+                setPower=0.1;}
+            telemetry.addLine("Driver X/square is pushed");
+            telemetry.addData("new power ",setPower);
+            sleep(200);
+        }
+        if(gamepad1.y)
+        {
+            setPower+=0.1;
+            if (setPower>0.8){
+            setPower=0.8;}
+            telemetry.addLine("Driver Y/triangle is pushed");
+            telemetry.addData("new power ",setPower);
+            sleep(200);
+
+        }
+    }
+    private void manageManipulatorButtons(){
+        if(gamepad2.a)
+        {
+            setPosition+=0.1;
+            if (setPosition>1){
+                setPosition=0.1;}
+            telemetry.addLine("Driver Y/triangle is pushed");
+            telemetry.addData("new power ",setPosition);
+            myServo.setPosition(setPosition);
+            sleep(200);
+        }
+        if(gamepad2.b)
+        {
+
+        }
+        if(gamepad2.x)
+        {
+            myServo.setPosition(0.5);
+
+        }
+        if(gamepad2.y)
+        {
+            setPosition-=0.1;
+            if (setPosition<0.0){
+                setPosition=0.9;}
+            telemetry.addLine("Driver X/square is pushed");
+            telemetry.addData("new power ",setPosition);
+            myServo.setPosition(setPosition);
+            sleep(200);
+
         }
     }
     private void manageChassisDrive(double maxSpeed){
         double max;
+
 
         // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
         double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
@@ -185,70 +264,5 @@ public class TestAxonServo extends LinearOpMode {
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-    }
-
-    private void initializeDevices()
-    {
-
-
-    }
-
-    private void manageDriverButtons(){
-        if(gamepad1.a)
-        {
-            telemetry.addLine("Driver A/cross is pushed");
-
-        }
-        if(gamepad1.b)
-        {
-            telemetry.addLine("Driver B/circle is pushed");
-        }
-        if(gamepad1.x)
-        {
-            telemetry.addLine("Driver X/square is pushed");
-        }
-        if(gamepad1.y)
-        {
-            telemetry.addLine("Driver Y/triangle is pushed");
-        }
-    }
-
-    private void manageDriverCrossPad(){
-        if(gamepad1.dpad_up)
-        {
-            telemetry.addLine("Driver Dpad Up is pushed");
-        }
-        if(gamepad1.dpad_down)
-        {
-            telemetry.addLine("Driver Dpad Down is pushed");
-        }
-        if(gamepad1.dpad_left)
-        {
-            telemetry.addLine("Driver Dpad Left is pushed");
-        }
-        if(gamepad1.dpad_right)
-        {
-            telemetry.addLine("Driver Dpad Right is pushed");
-        }
-    }
-
-    private void manageDriverTriggersAndBumpers(){
-        if(gamepad1.left_bumper)
-        {
-            telemetry.addLine("Driver Left Bumper is pushed");
-        }
-        if(gamepad1.right_bumper)
-        {
-            telemetry.addLine("Driver Right Bumper is pushed");
-        }
-        if(gamepad1.left_trigger > 0.5)
-        {
-            telemetry.addLine("Driver Left Trigger is pushed");
-        }
-        if(gamepad1.right_trigger > 0.5)
-        {
-            telemetry.addLine("Driver Right Trigger is pushed");
-        }
-
     }
 }

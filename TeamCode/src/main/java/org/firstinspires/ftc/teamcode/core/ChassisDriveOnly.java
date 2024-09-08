@@ -78,7 +78,7 @@ public class ChassisDriveOnly extends LinearOpMode {
 
     private double setPower = 0.5;
 
-    private double setPosition = 0.5;
+
 
     public Servo myServo;
     private CyDogsSparky mySparky;
@@ -86,8 +86,7 @@ public class ChassisDriveOnly extends LinearOpMode {
     public void runOpMode() {
 
     //    mySparky = new CyDogsSparky(this, CyDogsChassis.Alliance.RED, 300);
-        AnalogInput analogInput = hardwareMap.get(AnalogInput.class, "ServoPosition");
-        double position;
+
         initializeWheels();
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -96,17 +95,13 @@ public class ChassisDriveOnly extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        myServo = hardwareMap.get (Servo.class, "Servo");
 
-
-        myServo.setDirection(Servo.Direction.FORWARD);
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             manageChassisDrive(setPower);
             manageDriverButtons();
             manageManipulatorButtons();
-            position = analogInput.getVoltage() / 3.3 * 360;
-            telemetry.addData("The servo position ",position);
+
             telemetry.update();
 
         }
@@ -149,13 +144,7 @@ public class ChassisDriveOnly extends LinearOpMode {
     private void manageManipulatorButtons(){
         if(gamepad2.a)
         {
-            setPosition+=0.1;
-            if (setPosition>1){
-                setPosition=0.1;}
-            telemetry.addLine("Driver Y/triangle is pushed");
-            telemetry.addData("new power ",setPosition);
-            myServo.setPosition(setPosition);
-            sleep(200);
+
         }
         if(gamepad2.b)
         {
@@ -163,18 +152,12 @@ public class ChassisDriveOnly extends LinearOpMode {
         }
         if(gamepad2.x)
         {
-            myServo.setPosition(0.5);
+
 
         }
         if(gamepad2.y)
         {
-            setPosition-=0.1;
-            if (setPosition<0.0){
-                setPosition=0.9;}
-            telemetry.addLine("Driver X/square is pushed");
-            telemetry.addData("new power ",setPosition);
-            myServo.setPosition(setPosition);
-            sleep(200);
+
 
         }
     }

@@ -86,29 +86,31 @@ public class BetterDriveOnly extends LinearOpMode {
     public void runOpMode() {
 
     //    mySparky = new CyDogsSparky(this, CyDogsChassis.Alliance.RED, 300);
-        AnalogInput analogInput = hardwareMap.get(AnalogInput.class, "ServoPosition");
+    //    AnalogInput analogInput = hardwareMap.get(AnalogInput.class, "ServoPosition");
         double position;
         initializeWheels();
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
-        telemetry.update();
+    //    telemetry.update();
 
         waitForStart();
-        runtime.reset();
+    //    runtime.reset();
 
-        myServo = hardwareMap.get (Servo.class, "Servo");
+      //  myServo = hardwareMap.get (Servo.class, "Servo");
 
 
-        myServo.setDirection(Servo.Direction.FORWARD);
+    //    myServo.setDirection(Servo.Direction.FORWARD);
         // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            manageChassisDrive(setPower);
-        //    manageDriverButtons();
-        //    manageManipulatorButtons();
-        //    position = analogInput.getVoltage() / 3.3 * 360;
-        //    telemetry.addData("The servo position ",position);
-         //   telemetry.update();
+        if(opModeIsActive()) {
+            while (opModeIsActive()) {
+                manageChassisDrive(setPower);
+                //    manageDriverButtons();
+                //    manageManipulatorButtons();
+                //    position = analogInput.getVoltage() / 3.3 * 360;
+                //    telemetry.addData("The servo position ",position);
+                      telemetry.update();
 
+            }
         }
     }
 
@@ -242,5 +244,11 @@ public class BetterDriveOnly extends LinearOpMode {
         BackLeftWheel.setDirection(DcMotor.Direction.REVERSE);
         FrontRightWheel.setDirection(DcMotor.Direction.FORWARD);
         BackRightWheel.setDirection(DcMotor.Direction.FORWARD);
+
+        FrontLeftWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        FrontRightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        BackLeftWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        BackRightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
     }
 }
