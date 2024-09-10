@@ -41,6 +41,10 @@ import org.firstinspires.ftc.teamcode.centerstage.CyDogsSparky;
 public class Learning_Auton_Teleop extends LinearOpMode {
 
     // declare variables here
+    //
+
+
+
 
     @Override
     public void runOpMode() {
