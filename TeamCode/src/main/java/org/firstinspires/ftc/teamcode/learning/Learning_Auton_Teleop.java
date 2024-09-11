@@ -57,9 +57,17 @@ public class Learning_Auton_Teleop extends LinearOpMode {
 
         while (opModeIsActive()) {
             // do op mode things here
+            manageDriverControls();
 
         }
     }
 
+    private void manageDriverControls()
+    {
+        if(gamepad1.triangle)
+        {
+            // do something
+        }
 
+    }
 }
