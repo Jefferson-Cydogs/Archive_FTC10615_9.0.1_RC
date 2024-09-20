@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.centerstage;
+package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class CyDogsChassis {
+public class CyDogsChassisDeep {
     public DcMotor FrontLeftWheel;
     public DcMotor FrontRightWheel;
     public DcMotor BackLeftWheel;
@@ -20,7 +20,7 @@ public class CyDogsChassis {
 
     // This is the constructor for the class.  It takes a parameter for currentOp, which allows
     //   it to store and use the current op mode.  The four wheels are initialized here.
-    public CyDogsChassis(LinearOpMode currentOp){
+    public CyDogsChassisDeep(LinearOpMode currentOp){
 
         // The op mode is important code provided by first.  It has the hardwareMap, sleep function,
         //   and telemetry functions.

@@ -1,14 +1,18 @@
 package org.firstinspires.ftc.teamcode.centerstage;
 
 
+import androidx.appcompat.app.ActionBar;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+import org.firstinspires.ftc.teamcode.*;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 
 @Autonomous
+@Disabled
 public class AutonRedRightNewAprilTagCode extends LinearOpMode {
     SpikeCam.location mySpikeLocation;
     private int lookingForTagNumber = 1;

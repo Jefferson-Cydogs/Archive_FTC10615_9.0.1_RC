@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.checkerframework.checker.units.qual.Current;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /*
 This allows you to select which servos to test during initialization.
@@ -17,7 +19,8 @@ After selection you can control servos position using gamepad.
 @TeleOp (name = "Multi-Servo Control TeleOp(PlayStation)",group = "Utility")
 public class Daniel_Servo_Learning extends LinearOpMode {
 
-//Declare the servos
+    private static final Logger log = LoggerFactory.getLogger(Daniel_Servo_Learning.class);
+    //Declare the servos
 private Servo servo1;
 private Servo servo2;
 private Servo servo3;
@@ -31,16 +34,16 @@ private String selectedServoName = "None";
 private double servoPosition = 0.5;
 
 //Timer for optional servo select time out
-private ElapsedTime selectionTimer = ElapsedTime();
+private ElapsedTime selectionTimer = new ElapsedTime();
 
 @Override
-public void runOpMode(){
+public void runOpMode() {
 
     //Initialize the servos with error handling
-    if (!initalize("servo1"))return;
-    if (!initalize("servo2"))return;
-    if (!initalize("servo3"))return;
-    if (!initalize("servo4"))return;
+    if (!initalizeServo("servo1")) return;
+    if (!initalizeServo("servo2")) return;
+    if (!initalizeServo("servo3")) return;
+    if (!initalizeServo("servo4")) return;
 
     //Option set intial position for all servos
     servo1.setPosition(servoPosition);
@@ -48,28 +51,28 @@ public void runOpMode(){
     servo3.setPosition(servoPosition);
     servo4.setPosition(servoPosition);
 
-     //Display selection Instructions during Intialzation
+    //Display selection Instructions during Intialzation
     telemetry.addLine("Select Servo to Test using PlayStation Controller Buttons.")
-        .addData("Cross(X)","Servo 1")
-        .addData("Circle(O)","Servo 2")
-        .addData("Square(N)","Servo 3")
-        .addData("Triangle(A)","Servo 4")
-        .addData("Current Selection",selectedServoName);
+            .addData("Cross(X)", "Servo 1")
+            .addData("Circle(O)", "Servo 2")
+            .addData("Square(N)", "Servo 3")
+            .addData("Triangle(A)", "Servo 4")
+            .addData("Current Selection", selectedServoName);
     telemetry.update();
 
     //Wait for driver presses play
     waitForStart();
 
 //Allows user to select a servo before TeleOp
-while (opModeIsActive()&& selectedServo == null)30 {
-//Check for servo selection buttons based on PlaySataion controller mapping
+    while (opModeIsActive() && selectedServo == null) {
+//Check for servo selection buttons based on PlayStation controller mapping
         if (gamepad1.a) {//Cross(X)button
             selectedServo = servo1;
             selectedServoName = "Servo 1";
             servoPosition = servo1.getPosition();
             telemetry.addData("Selected Servo", selectedServoName);
             telemetry.update();
-            sleep(300);//delay to prevent multple selections
+            sleep(300);//delay to prevent multiple selections
         } else if (gamepad1.b) {//Circle button
             selectedServo = servo2;
             selectedServoName = "Servo 2";
@@ -114,83 +117,117 @@ while (opModeIsActive()&& selectedServo == null)30 {
     }
     //Display active control instructions
     telemetry.addLine("Control the selected servo using D-pad.")
-            .addData("D-pad Up","+0.1")
-            .addData("D-pad Down","-0.1")
-            .addData("D-pad Right","+0.01")
-            .addData("D-pad Left","-0.01")
-            .addData("Current Poaition",String.format("%2f",servoPosition));
-telemetry.update();
+            .addData("D-pad Up", "+0.1")
+            .addData("D-pad Down", "-0.1")
+            .addData("D-pad Right", "+0.01")
+            .addData("D-pad Left", "-0.01")
+            .addData("Current Position", String.format("%2f", servoPosition));
+    telemetry.update();
 
-//TeleOp Phase: Control the selected srvo
-    while (opModeIsActive()){
-    boolean updated = false;//Flag to check if servo position was updated
-    //Check if the D-pad Up button is pressed
-    if (gamepad1.dpad_down) {
-        //Decase servo position by 0.1
-        servoPosition += 0.1;
-        //Clamp the servo position to a max of 1.0
-        if (servoPosition > 1.0) {
-            servoPosition = 1.0;
-            telemetry.addLine("Servo position at maximum(1.0)");
+//TeleOp Phase: Control the selected servo
+    while (opModeIsActive()) {
+        boolean updated = false;//Flag to check if servo position was updated
+        //Check if the D-pad Up button is pressed
+        if (gamepad1.dpad_down) {
+            //Increase servo position by 0.1
+            servoPosition += 0.1;
+            //Clamp the servo position to a max of 1.0
+            if (servoPosition > 1.0) {
+                servoPosition = 1.0;
+                telemetry.addLine("Servo position at maximum(1.0)");
+            }
+            updated = true;
+            //add a short delay
+            sleep(200);
         }
-        updated = true;
-        //add a short delay
-        sleep(200);
+
+        //Check if D-pad Down button is pressed
+        if (gamepad1.dpad_down) {
+            //Decrease servo position by 0.1
+            servoPosition -= 0.1;
+            //Clamp the servo position to a minimum of 0.0
+            if (servoPosition < 0.0) {
+                servoPosition = 0.0;
+                telemetry.addLine("Servo position at minimum(0.0)");
+            }
+            updated = true;
+            //Add a short delay
+            sleep(200);
+        }
+        //Check if D-pad Right button is pressed
+        if (gamepad1.dpad_right) {
+            //Increase servo position by 0.01
+            servoPosition += 0.01;
+            //Clamp the servo position to a max of 1.0
+            if (servoPosition > 1.0) {
+                servoPosition = 1.0;
+                telemetry.addLine("Servo position at maximum(1.0)");
+            }
+            updated = true;
+            //Add a short delay
+            sleep(100);
+        }
+
+        //Check if the D-pad Left button is pressed
+        if (gamepad1.dpad_left) {
+            //Decrease servo position by 0.01
+            servoPosition -= 0.01;
+            //Clamp the servo position to a minimum of 0.0
+            if (servoPosition < 0.0) {
+                servoPosition = 0.0;
+                telemetry.addLine("Servo position at minimum(0.0)");
+            }
+            updated = true;
+            //Add a short delay
+            sleep(100);
+        }
+
+//If servo position was updated,apply the new position
+        if (updated) {
+            try {
+                selectedServo.setPosition(servoPosition);
+            } catch (Exception e) {
+                telemetry.addData("Error", "Failed to set servo position: " + e.getMessage());
+                telemetry.update();
+            }
+
+            //Update the telemetry with the new servo position
+            telemetry.addData("Selected Servo", selectedServoName);
+            telemetry.addData("Servo Position", String.format("%2f", servoPosition));
+            telemetry.update();
+        }
+        //Small delay to improve loop performance
+        sleep(50);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
+/*
+Initialize a servo and verifies its configuration.
+
+    @param servoName The name of the servo as configured on the robot Controller App.
+    @return True if the servo was successfully initialized, false otherwise.
 
 
-
-
-
+ */
+    private boolean initalizeServo(String servoName){
+try{
+    Servo servo = hardwareMap.get(Servo.class, servoName);
+    if (servo == null) {
+        telemetry.addData("Error", "Servo" + servoName + "not found.Please check configuration");
+        telemetry.update();
+        requestOpModeStop();
+        return false;
+    }
+    telemetry.addData("Servo Initialized", servoName);
+    telemetry.update();
+    return true;
+}catch (Exception e){
+telemetry.addData("Error","Exception initializing servo" +servoName+":" + e.getMessage());
+telemetry.update();
+requestOpModeStop();
+return false;
+}
+    }
+}
 
 
 
