@@ -3,10 +3,8 @@ package org.firstinspires.ftc.teamcode.intothedeep;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.checkerframework.checker.units.qual.Current;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,20 +38,20 @@ private ElapsedTime selectionTimer = new ElapsedTime();
 public void runOpMode() {
 
     //Initialize the servos with error handling
-    if (!initalizeServo("servo1")) return;
-    if (!initalizeServo("servo2")) return;
-    if (!initalizeServo("servo3")) return;
-    if (!initalizeServo("servo4")) return;
+    servo1 = initalizeServo("Servo");
+    //if (!initalizeServo("servo2")) return;
+    //if (!initalizeServo("servo3")) return;
+    //if (!initalizeServo("servo4")) return;
 
     //Option set intial position for all servos
     servo1.setPosition(servoPosition);
-    servo2.setPosition(servoPosition);
-    servo3.setPosition(servoPosition);
-    servo4.setPosition(servoPosition);
+    //servo2.setPosition(servoPosition);
+    //servo3.setPosition(servoPosition);
+    //servo4.setPosition(servoPosition);
 
     //Display selection Instructions during Intialzation
     telemetry.addLine("Select Servo to Test using PlayStation Controller Buttons.")
-            .addData("Cross(X)", "Servo 1")
+            .addData("Cross(X)", "Servo")
             .addData("Circle(O)", "Servo 2")
             .addData("Square(N)", "Servo 3")
             .addData("Triangle(A)", "Servo 4")
@@ -208,32 +206,23 @@ Initialize a servo and verifies its configuration.
 
 
  */
-    private boolean initalizeServo(String servoName){
+    private Servo initalizeServo(String servoName){
 try{
     Servo servo = hardwareMap.get(Servo.class, servoName);
     if (servo == null) {
         telemetry.addData("Error", "Servo" + servoName + "not found.Please check configuration");
         telemetry.update();
         requestOpModeStop();
-        return false;
+        return null;
     }
     telemetry.addData("Servo Initialized", servoName);
     telemetry.update();
-    return true;
+    return servo;
 }catch (Exception e){
 telemetry.addData("Error","Exception initializing servo" +servoName+":" + e.getMessage());
 telemetry.update();
 requestOpModeStop();
-return false;
+return null;
 }
     }
 }
-
-
-
-
-
-
-
-
-
