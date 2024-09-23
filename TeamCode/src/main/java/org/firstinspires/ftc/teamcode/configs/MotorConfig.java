@@ -5,14 +5,14 @@ package org.firstinspires.ftc.teamcode.configs;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 
 
-@TeleOp(name = "Multi-Motor Position Control Teleop (PlayStation)",group = "Utility")
-public class Motorconfig extends LinearOpMode {
+@TeleOp
+public class MotorConfig extends LinearOpMode {
 
 //Declare the motors
     private DcMotor motor1;
@@ -34,16 +34,11 @@ public class Motorconfig extends LinearOpMode {
      @Override
     public void runOpMode() {
          //Initilize the motors with error handling
-         if (!initializeMotor("motor1")) return;
-         if (!initializeMotor("motor2")) return;
-         if (!initializeMotor("motor3")) return;
-         if (!initializeMotor("motor4")) return;
 
-         //Reset encoders and set motors to RUN_TO_POSITION mode
-         resetAndConfigureMotor(motor1);
-         resetAndConfigureMotor(motor2);
-         resetAndConfigureMotor(motor3);
-         resetAndConfigureMotor(motor4);
+         motor1 = initializeMotor("RedSlide");
+         motor2 = initializeMotor("BlueSlide");
+         motor3 = initializeMotor("FrontLeftWheel");
+         motor4 = initializeMotor("FrontRightWheel");
 
          //set inital taget positions to 0
 
@@ -52,23 +47,34 @@ public class Motorconfig extends LinearOpMode {
          motor3.setTargetPosition(0);
          motor4.setTargetPosition(0);
 
+         //Reset encoders and set motors to RUN_TO_POSITION mode
+         resetAndConfigureMotor(motor1);
+         resetAndConfigureMotor(motor2);
+         resetAndConfigureMotor(motor3);
+         resetAndConfigureMotor(motor4);
+
+         motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+         motor2.setDirection(DcMotorSimple.Direction.REVERSE);
+
          //Set initial motor power to 0 (no movement)
          motor1.setPower(0);
          motor2.setPower(0);
          motor3.setPower(0);
          motor4.setPower(0);
 
+
+//Wati for the game to start(driver presses PLAY
+         waitForStart();
+
     //Display selection instructions during initialization
 telemetry.addLine("Select Motor to Test using PlayStation Controller Buttons.")
-        .addData("Cross(X)","Motor 1")
-    .addData("Circle(O)","Motor 2")
-    .addData("Square()","Motor 3")
-    .addData("Triangle()","Motor 4")
+        .addData("Cross(X)","Red Slide")
+    .addData("Circle(O)","Blue Slide")
+    .addData("Square()","Left Front Wheel")
+    .addData("Triangle()","Right Front Wheel")
     .addData("Current Selection",selectedMotorName);
 telemetry.update();
 
-//Wati for the game to start(driver presses PLAY
-    waitForStart();
 
     while (opModeIsActive()&&selectedMotor == null){
     //Check for motor selection buttons based on PlayStation controller mapping
@@ -160,7 +166,7 @@ if(selectedMotor==null){
                         updated=true;
                         sleep(150);
                     }
-                    if(gamepad2.dpad_left){
+                    if(gamepad1.dpad_left){
                         motorTargetPosition-=10;
                         if(motorTargetPosition<0){
                             motorTargetPosition=0;
@@ -193,27 +199,27 @@ if(selectedMotor==null){
                 }
     }
 
-    private boolean initializeMotor(String motorName) {
+    private DcMotor initializeMotor(String motorName) {
         try {
             DcMotor motor = hardwareMap.get(DcMotor.class, motorName);
             if (motor == null) {
                 telemetry.addData("Error", "Motor" + motorName + "not found.Please c.heck configuration.");
                 telemetry.update();
                 requestOpModeStop();
-                return false;
+                return null;
             }
             telemetry.addData("Motor Initialized", motorName);
             telemetry.update();
-            return true;
+            return motor;
         } catch (Exception e) {
             telemetry.addData("Error", "Exception initilize motor" + motorName + ":" + e.getMessage());
             telemetry.update();
-            return false;
+            return null;
         }
     }
     private void resetAndConfigureMotor(DcMotor motor){
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            selectedMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 }
