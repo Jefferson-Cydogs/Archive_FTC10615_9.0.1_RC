@@ -15,9 +15,7 @@ import org.firstinspires.ftc.teamcode.core.CyDogsChassis;
 @Disabled
 public class Learning_Auton_Base extends LinearOpMode {
 
-    /* declare variables
-    mjggjkgkjgkjggjk
-    */
+
     @Override
     public void runOpMode() {
 
