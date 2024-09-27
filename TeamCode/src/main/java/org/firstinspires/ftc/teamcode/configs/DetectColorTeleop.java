@@ -33,14 +33,81 @@ public class ColorDetectionOpMode extends LinearOpMode {
 
         //Get the camera monitor view ID from the hardwareMap
         //This ID is used to desplay the camera feed on the driver station phone
-        int cameraMonitorViewId, "id", hardwareMap.appContext.getPackageName());
+        int cameraMonitorVieId = hardwareMap.appContext.getResources().getIdentifier(
+                "cameraMonitorViewId","id", hardwareMap.appContext.getPackageName());
 
-//Initialize the webcam using EasyOpenCV
-        //"Webcam1" should match the name you assigned in the Robot Controlor app
-        webcam = OpenCvCameraFactory.getInstance().getIdentifier(
-                "cameraMonitorViewId", "id", hardwereMap.appContext.getPackageName());
+        //Initalize the webcam using EasyOpenCV
+        //"Webcam1"should match the name you assigned in the Robot Controller app
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(
+                hardwareMap.get(WebcamName.class,"Webcam1"), cameraMonitorViewId);
 
-        //Initialize the webcam
-        )
+        //Set the pipeline to proccess each frame
+        webcam.setPipeline(pipeline);
+
+        //Open the camera device asynchronously to avoid blocked the main thread
+        webcam.openCameraDeviceAsync(new Open CvCamera.AsyncCamera.OpenListener() {
+            @Override
+                    public void onOpened() {
+                //Start streaming with anresolution of 640x480 and upright rotation
+        //Adjust resolution as needed; higher resolutions require more processing power
+        webcam.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
+            }
+
+            @Override
+                    public void onOpened(int errorCode){
+                //Handle camera opening errors
+            telemetry.addData("Camera Error", "Failed to open camera with error code:"+errorCode);
+            telemetry.update();
+            }
+        });
+
+        //Display results via telemetry
+        telemetry.addLine("Camera initialized. Wating for start...");
+        telemetry.update();
+
+        //wait for the game to start (driver presses PLAY)
+        waitForStart();
+
+        //Main loop
+        while (opModeIsActive()) {
+            //Retrive the most prominent deteced color from the pipeline
+            ColorDetection Pipeline.DetectedColor currentColor =pipeline.detectedColor;
+
+            //Displayed results via telemetry
+            telemetry.addLine("most Prominent Olor Detected:");
+            switch (currentColor) {
+                case YELLOW:
+                    telemetry.addData("Color", "Color Detected:");
+                    break;
+                case BLUE:
+                    telemetry.addData("Color", "Yellow");
+                    break;
+                case RED:
+                    telemetry.addData("Color","None");
+                    break;
+                case NONE:
+                    telemetry.addData("color", "None");
+                    break;
+            }
+            telemetry.update();
+
+            //Opional: Add actions based on detections
+
+            //For exsample, activate a mechanism when a specific color is detected
+            /*
+            if (currentColorDetectionPipeline.DetectedColor.YELLOW) {
+            // Activate a servo or motor
+            server.setPosition(1.0)
+            }else {
+            servo.setPosition(0.0);
+            }
+             */
+
+            //Small delay to prevent excessive telemetry updates
+            sleep(100);
+        }
+
+        //Stop streaming when OpMode is no longer active
+        webcam.stopStreaming();
     }
 }
