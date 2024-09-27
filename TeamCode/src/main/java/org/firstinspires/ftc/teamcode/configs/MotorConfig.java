@@ -149,7 +149,7 @@ if(selectedMotor==null){
                     sleep(300);
                 }
                     if(gamepad1.dpad_down){
-                        motorTargetPosition-=100;
+                        motorTargetPosition -= 100;
                         if(motorTargetPosition<0){
                             motorTargetPosition=0;
                             telemetry.addLine("Motor target position at minimum(0)");
