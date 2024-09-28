@@ -1,4 +1,6 @@
 package org.firstinspires.ftc.teamcode.learning;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -22,17 +24,17 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
 
     //Yellow color range
     private final Scalar lowerYellow = new Scalar(20, 100, 100);
-    private final Scalar upperYellow = new Scalar(30, 255, 255);
+    private final Scalar upperYellow = new Scalar(40, 255, 255);
 
     //Blue color range
-    private final Scalar lowerBlue = new Scalar(100, 150, 0);
+    private final Scalar lowerBlue = new Scalar(100, 50, 50);
     private final Scalar upperBlue = new Scalar(140, 255, 255);
 
     //Red color range (note: red wraps around the hue spectrum, so we use two ranges)
-    private final Scalar lowerRed1 = new Scalar(0, 100, 100);
+    private final Scalar lowerRed1 = new Scalar(0, 120, 70);
     private final Scalar upperRed1 = new Scalar(10, 255, 255);
-    private final Scalar lowerRed2 = new Scalar(160, 100, 100);
-    private final Scalar upperRed2 = new Scalar(179, 255, 255);
+    private final Scalar lowerRed2 = new Scalar(160, 120, 70);
+    private final Scalar upperRed2 = new Scalar(180, 255, 255);
 
     /**
      * Datected color
@@ -54,6 +56,8 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
 
     //Bounding box variables
     private Rect boundingBox = new Rect();
+
+    public LinearOpMode myOpMode;
 
     /**
      * processFrame
@@ -89,6 +93,9 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
         double areaYellow = calculateArea(maskYellow);
         double areaBlue = calculateArea(maskBlue);
         double areaRed = calculateArea(maskRed);
+        myOpMode.telemetry.addData("Yellow Area:",areaYellow);
+        myOpMode.telemetry.addData("Blue Area:",areaBlue);
+        myOpMode.telemetry.addData("Red Area:",areaRed);
 
         //Determine whitch color has the maximum area
         if (areaYellow > areaThreshold || areaBlue > areaThreshold || areaRed > areaThreshold) {

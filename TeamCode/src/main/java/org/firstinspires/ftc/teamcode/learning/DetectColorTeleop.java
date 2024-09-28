@@ -32,6 +32,7 @@ public class DetectColorTeleop extends LinearOpMode {
     public void runOpMode() {
         // Initialize the pipeline
         pipeline = new ColorDetectionPipeline();
+        pipeline.myOpMode = this;
 
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -85,13 +86,13 @@ public class DetectColorTeleop extends LinearOpMode {
             telemetry.addLine("most Prominent Color Detected:");
             switch (currentColor) {
                 case YELLOW:
-                    telemetry.addData("Color", "Color Detected:");
-                    break;
-                case BLUE:
                     telemetry.addData("Color", "Yellow");
                     break;
+                case BLUE:
+                    telemetry.addData("Color", "Blue");
+                    break;
                 case RED:
-                    telemetry.addData("Color","None");
+                    telemetry.addData("Color","Red");
                     break;
                 case NONE:
                     telemetry.addData("color", "None");
