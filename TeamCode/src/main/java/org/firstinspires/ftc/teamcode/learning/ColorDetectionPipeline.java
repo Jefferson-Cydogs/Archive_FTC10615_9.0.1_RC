@@ -50,7 +50,7 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
     public DetectedColor detectedColor = DetectedColor.NONE;
 
     //Area threshold to avoid false positives (adjust based on expected object size)
-    private final double areaThreshold = 5000.0;
+    private final double areaThreshold = 1000;
 
     //Bounding box variables
     private Rect boundingBox = new Rect();
@@ -100,7 +100,7 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
                 detectedColor = DetectedColor.RED;
             }
 
-            //Find contours for the detected color to draw bounding box
+  /*          //Find contours for the detected color to draw bounding box
             Mat mask = getMaskForDetectedColor();
             java.util.List<MatOfPoint> contours = new java.util.ArrayList<>();
             Imgproc.findContours(mask, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
@@ -123,9 +123,10 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
                 //Draw the bounding box on the input frame
                 Scalar boxColor = getColorScalar(detectedColor);
                 Imgproc.rectangle(input, boundingBox.tl(), boundingBox.br(), boxColor, 3);
-            }
+                }
+     */      }
 
-        } else {
+         else {
             detectedColor = DetectedColor.NONE;
         }
 

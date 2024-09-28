@@ -70,7 +70,7 @@ public class DetectColorTeleop extends LinearOpMode {
         });
 
         //Display results via telemetry
-        telemetry.addLine("Camera initialized. Wating for start...");
+        telemetry.addLine("Camera initialized. Waiting for start...");
         telemetry.update();
 
         //wait for the game to start (driver presses PLAY)
