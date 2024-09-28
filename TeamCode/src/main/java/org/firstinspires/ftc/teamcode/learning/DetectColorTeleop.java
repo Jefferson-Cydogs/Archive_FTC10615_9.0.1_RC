@@ -3,6 +3,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.centerstage.SpikeMark;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -32,18 +33,24 @@ public class DetectColorTeleop extends LinearOpMode {
         // Initialize the pipeline
         pipeline = new ColorDetectionPipeline();
 
+        WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
+        webcam.setPipeline(pipeline);
+
+
         //Get the camera monitor view ID from the hardwareMap
         //This ID is used to desplay the camera feed on the driver station phone
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "cameraMonitorViewId","id", hardwareMap.appContext.getPackageName());
+   //     int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+   //             "cameraMonitorViewId","id", hardwareMap.appContext.getPackageName());
 
         //Initalize the webcam using EasyOpenCV
         //"Webcam1"should match the name you assigned in the Robot Controller app
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(
-                hardwareMap.get(WebcamName.class,"Webcam1"),cameraMonitorViewId);
+   //     webcam = OpenCvCameraFactory.getInstance().createWebcam(
+   //             hardwareMap.get(WebcamName.class,"Webcam 1"),cameraMonitorViewId);
 
         //Set the pipeline to proccess each frame
-        webcam.setPipeline(pipeline);
+    //    webcam.setPipeline(pipeline);
 
         //Open the camera device asynchronously to avoid blocked the main thread
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -75,7 +82,7 @@ public class DetectColorTeleop extends LinearOpMode {
             ColorDetectionPipeline.DetectedColor currentColor =pipeline.detectedColor;
 
             //Displayed results via telemetry
-            telemetry.addLine("most Prominent Olor Detected:");
+            telemetry.addLine("most Prominent Color Detected:");
             switch (currentColor) {
                 case YELLOW:
                     telemetry.addData("Color", "Color Detected:");
