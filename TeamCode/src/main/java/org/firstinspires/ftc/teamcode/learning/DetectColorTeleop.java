@@ -99,6 +99,7 @@ public class DetectColorTeleop extends LinearOpMode {
                     break;
             }
             telemetry.update();
+            sleep(50);
 
             //Opional: Add actions based on detections
 
@@ -112,8 +113,6 @@ public class DetectColorTeleop extends LinearOpMode {
             }
              */
 
-            //Small delay to prevent excessive telemetry updates
-            sleep(100);
         }
 
         //Stop streaming when OpMode is no longer active

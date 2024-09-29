@@ -23,18 +23,22 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
     // HSV ranges: Hue (0-179), Saturation (0-255), Value (0-255)
 
     //Yellow color range
-    private final Scalar lowerYellow = new Scalar(20, 100, 100);
-    private final Scalar upperYellow = new Scalar(40, 255, 255);
+    private final Scalar lowerYellow = new Scalar(95, 30, 30);
+    private final Scalar upperYellow = new Scalar(110, 255, 255);
+
+
 
     //Blue color range
-    private final Scalar lowerBlue = new Scalar(100, 50, 50);
-    private final Scalar upperBlue = new Scalar(140, 255, 255);
+    private final Scalar lowerBlue = new Scalar(0, 30, 30);
+    private final Scalar upperBlue = new Scalar(15, 255, 255);
 
+    private final Scalar lowerRed = new Scalar(110, 30, 30);
+    private final Scalar upperRed = new Scalar(125, 255, 255);
     //Red color range (note: red wraps around the hue spectrum, so we use two ranges)
-    private final Scalar lowerRed1 = new Scalar(0, 120, 70);
-    private final Scalar upperRed1 = new Scalar(10, 255, 255);
-    private final Scalar lowerRed2 = new Scalar(160, 120, 70);
-    private final Scalar upperRed2 = new Scalar(180, 255, 255);
+//    private final Scalar lowerRed1 = new Scalar(0, 50, 70);
+//    private final Scalar upperRed1 = new Scalar(9, 255, 255);
+//    private final Scalar lowerRed2 = new Scalar(160, 50, 70);
+//    private final Scalar upperRed2 = new Scalar(179, 255, 255);
 
     /**
      * Datected color
@@ -52,7 +56,7 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
     public DetectedColor detectedColor = DetectedColor.NONE;
 
     //Area threshold to avoid false positives (adjust based on expected object size)
-    private final double areaThreshold = 1000;
+    private final double areaThreshold = 0;
 
     //Bounding box variables
     private Rect boundingBox = new Rect();
@@ -76,26 +80,36 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
         Imgproc.cvtColor(input, hsv, Imgproc.COLOR_BGR2HSV);
 
         //Create binary masks for each color based on defined HSV ranges
+        Mat maskBlue = new Mat();
+       Core.inRange(hsv, lowerBlue, upperBlue, maskBlue);
+        //return (hsv);
+        //return maskBlue;
+
+
         Mat maskYellow = new Mat();
         Core.inRange(hsv, lowerYellow, upperYellow, maskYellow);
 
-        Mat maskBlue = new Mat();
-        Core.inRange(hsv, lowerBlue, upperBlue, maskBlue);
-
-        Mat maskRed1 = new Mat();
-        Core.inRange(hsv, lowerRed1, upperRed1, maskRed1);
-        Mat maskRed2 = new Mat();
-        Core.inRange(hsv, lowerRed2, upperRed2, maskRed2);
         Mat maskRed = new Mat();
-        Core.add(maskRed1, maskRed2, maskRed); //Combine both red masks
+        Core.inRange(hsv, lowerRed, upperRed, maskRed);
+
+//        Mat maskRed1 = new Mat();
+//        Core.inRange(hsv, lowerRed1, upperRed1, maskRed1);
+//        Mat maskRed2 = new Mat();
+//        Core.inRange(hsv, lowerRed2, upperRed2, maskRed2);
+//        double areaRed = calculateArea(maskRed1) + calculateArea(maskRed2);
+//        myOpMode.telemetry.addData("Red Area 1:",calculateArea(maskRed1));
+//        myOpMode.telemetry.addData("Red Area 2:",calculateArea(maskRed2));
+//        Mat maskRed = new Mat();
+        //       Core.add(maskRed1, maskRed2, maskRed); //Combine both red masks
+
 
         //Calculate the area covered by each color
         double areaYellow = calculateArea(maskYellow);
         double areaBlue = calculateArea(maskBlue);
         double areaRed = calculateArea(maskRed);
-        myOpMode.telemetry.addData("Yellow Area:",areaYellow);
-        myOpMode.telemetry.addData("Blue Area:",areaBlue);
-        myOpMode.telemetry.addData("Red Area:",areaRed);
+        myOpMode.telemetry.addData("Yellow Area:", areaYellow);
+        myOpMode.telemetry.addData("Blue Area:", areaBlue);
+        myOpMode.telemetry.addData("Red Area:", areaRed);
 
         //Determine whitch color has the maximum area
         if (areaYellow > areaThreshold || areaBlue > areaThreshold || areaRed > areaThreshold) {
@@ -106,8 +120,8 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
             } else {
                 detectedColor = DetectedColor.RED;
             }
-
-  /*          //Find contours for the detected color to draw bounding box
+        }
+      /*     //Find contours for the detected color to draw bounding box
             Mat mask = getMaskForDetectedColor();
             java.util.List<MatOfPoint> contours = new java.util.ArrayList<>();
             Imgproc.findContours(mask, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
@@ -131,23 +145,26 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
                 Scalar boxColor = getColorScalar(detectedColor);
                 Imgproc.rectangle(input, boundingBox.tl(), boundingBox.br(), boxColor, 3);
                 }
-     */      }
+           }
 
          else {
             detectedColor = DetectedColor.NONE;
         }
+*/
 
-        //Release Mats to free memery (prevent memery leaks)
-        hsv.release();
-        maskYellow.release();
-        maskBlue.release();
-        maskRed1.release();
-        maskRed2.release();
-        maskRed.release();
+            //Release Mats to free memery (prevent memery leaks)
+            hsv.release();
+            maskYellow.release();
+            maskBlue.release();
+            maskRed.release();
+            //     maskRed2.release();
+            maskRed.release();
 
-        //Return the annotated frame
-        return input;
-    }
+            //Return the annotated frame
+            return input;
+            //return maskBlue;
+
+        }
 
     /**
      * calculate Area
@@ -159,7 +176,11 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
      */
     private double calculateArea(Mat mask) {
         //Find contours in the mask.
-        java.util.List<MatOfPoint> contours = new java.util.ArrayList<>();
+
+
+        return Math.round(Core.sumElems(mask).val[0] / 100) / 100;
+
+ /*       java.util.List<MatOfPoint> contours = new java.util.ArrayList<>();
         Imgproc.findContours(mask, contours, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
 
         //Calculate the total area of all contoure.
@@ -169,8 +190,8 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
             if (area > areaThreshold) { //Consider only significant contours
                 totalArea += area;
             }
-        }
-        return totalArea;
+        }  */
+        //return totalArea;
     }
 
     /**
@@ -180,7 +201,7 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
      *
      * @return The binary mask Mat for the detected color.
      */
-    private Mat getMaskForDetectedColor() {
+ /*   private Mat getMaskForDetectedColor() {
         switch (detectedColor) {
             case YELLOW:
                 Mat maskYellow = new Mat();
@@ -203,7 +224,7 @@ public class ColorDetectionPipeline extends OpenCvPipeline {
                 return new Mat();
         }
     }
-
+*/
     /**
      * getColorScalar
      * <p>
