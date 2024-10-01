@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.core;
+package org.firstinspires.ftc.teamcode.learning;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -67,7 +67,7 @@ import org.firstinspires.ftc.teamcode.centerstage.CyDogsSparky;
  */
 
 @TeleOp
-public class ChassisDriveOnly extends LinearOpMode {
+public class ControllerTest extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -78,7 +78,7 @@ public class ChassisDriveOnly extends LinearOpMode {
 
     private double setPower = 0.5;
 
-
+    private double setPosition = 0.5;
 
     public Servo myServo;
     private CyDogsSparky mySparky;
@@ -86,7 +86,7 @@ public class ChassisDriveOnly extends LinearOpMode {
     public void runOpMode() {
 
     //    mySparky = new CyDogsSparky(this, CyDogsChassis.Alliance.RED, 300);
-
+         double position;
         initializeWheels();
         // Wait for the game to start (driver presses PLAY)
         telemetry.addData("Status", "Initialized");
@@ -95,13 +95,10 @@ public class ChassisDriveOnly extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             manageChassisDrive(setPower);
             manageDriverButtons();
-            manageManipulatorButtons();
-
             telemetry.update();
 
         }
@@ -110,56 +107,40 @@ public class ChassisDriveOnly extends LinearOpMode {
     private void manageDriverButtons(){
         if(gamepad1.a)
         {
-            setPower-=0.1;
-            if (setPower<0.1){
-                setPower=0.1;}
-            telemetry.addLine("Driver A/cross is pushed");
-            telemetry.addData("new power ",setPower);
-            sleep(200);
+            telemetry.addLine("Button A Pushed");
         }
         if(gamepad1.b)
         {
-            telemetry.addLine("Driver B/circle is pushed");
+            telemetry.addLine("Button B Pushed");
         }
         if(gamepad1.x)
         {
-            setPower-=0.1;
-            if (setPower<0.1){
-                setPower=0.1;}
-            telemetry.addLine("Driver X/square is pushed");
-            telemetry.addData("new power ",setPower);
-            sleep(200);
+            telemetry.addLine("Button X Pushed");
         }
         if(gamepad1.y)
         {
-            setPower+=0.1;
-            if (setPower>0.8){
-            setPower=0.8;}
-            telemetry.addLine("Driver Y/triangle is pushed");
-            telemetry.addData("new power ",setPower);
-            sleep(200);
+            telemetry.addLine("Button Y Pushed");
 
         }
-    }
-    private void manageManipulatorButtons(){
-        if(gamepad2.a)
+        if(gamepad1.circle)
         {
-
+            telemetry.addLine("Button Circle Pushed");
         }
-        if(gamepad2.b)
+        if(gamepad1.cross)
         {
-
+            telemetry.addLine("Button Cross Pushed");
         }
-        if(gamepad2.x)
+        if(gamepad1.triangle)
         {
-
-
+            telemetry.addLine("Button Triangle Pushed");
         }
-        if(gamepad2.y)
+        if(gamepad1.square)
         {
-
+            telemetry.addLine("Button Square Pushed");
 
         }
+
+
     }
     private void manageChassisDrive(double maxSpeed){
         double max;

@@ -1,10 +1,8 @@
-package org.firstinspires.ftc.teamcode.learning;
+package org.firstinspires.ftc.teamcode.intothedeep;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.core.CyDogsChassis;
 
@@ -12,10 +10,11 @@ import org.firstinspires.ftc.teamcode.core.CyDogsChassis;
 // The 'extends LinearOpMode' is needed so this code can run the build in op mode code from FIRST.
 //    @Autonomous puts this code in the autonomous category on driver station
 @Autonomous
-@Disabled
-public class Learning_Auton_Base extends LinearOpMode {
+public class RedRightOneSpecimen extends LinearOpMode {
 
+    /* declare variables
 
+    */
     @Override
     public void runOpMode() {
 
@@ -23,23 +22,34 @@ public class Learning_Auton_Base extends LinearOpMode {
 
         CyDogsChassis myBot = new CyDogsChassis(this);
         // Put code that should run during initialization HERE in this area
-
+        myBot.BackLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        myBot.FrontLeftWheel.setDirection(DcMotorSimple.Direction.REVERSE);
+        myBot.FrontRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
+        myBot.BackRightWheel.setDirection(DcMotorSimple.Direction.FORWARD);
         // Wait for the start button to be pressed on the driver station
         waitForStart();
 
         if (opModeIsActive()) {
             // Put code that should run during the active mode HERE in this area
-            myBot.StrafeLeft(482,.5,500);
-            myBot.RotateLeft(90,.7,100);
+
+            // 1: Drive forward, might need to move a little bit backwards
+           myBot.MoveStraight(590,.3,400);
+            // 2: Strafe left a little
+
+            // 3: Hang specimen
+
+            // 4: Touch chamber
+
+            // 5:
+
+            // 6:
+
+
 
         }
     }
 
-    private int AddStuff(int a, int b)
-    {
-        return a+b;
 
-    }
 }
 
 
