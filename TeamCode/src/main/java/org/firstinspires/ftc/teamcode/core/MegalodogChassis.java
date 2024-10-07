@@ -11,8 +11,9 @@ public class MegalodogChassis {
     public DcMotor FrontRightWheel;
     public DcMotor BackLeftWheel;
     public DcMotor BackRightWheel;
-
-    private LinearOpMode myOpMode;
+    private int WheelDiameter=104;    private LinearOpMode myOpMode;
+    private int RPM = 435;
+    private double ticksPerRevolution=384.5;
     public enum Direction {LEFT, CENTER, RIGHT}
     public enum Alliance {BLUE, RED}
 
@@ -52,9 +53,9 @@ public class MegalodogChassis {
 
         // > Clear Encoders of prior data
         FrontLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        FrontRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BackLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BackRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)(WheelDiameter)
+        BackLeftWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)(WheelDiameter)
+        BackRightWheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER)(WheelDiameter)
         FrontLeftWheel.setTargetPosition(0);
         FrontRightWheel.setTargetPosition(0);
         BackLeftWheel.setTargetPosition(0);
@@ -116,8 +117,8 @@ public class MegalodogChassis {
         double TicksToTarget;
         double TicksPerSecond;
 
-        TicksToTarget = (mmToTarget / (96 * Math.PI)) * 537.7;
-        TicksPerSecond = ((VelocityPercentage * 312) / 60) * 537.7;
+        TicksToTarget = (mmToTarget / (WheelDiameter * Math.PI)) * ticksPerRevolution;
+        TicksPerSecond = ((VelocityPercentage * RPM) / 60) * ticksPerRevolution;
         FrontLeftWheel.setTargetPosition((int) (FrontLeftWheel.getCurrentPosition() + TicksToTarget));
         FrontRightWheel.setTargetPosition((int) (FrontRightWheel.getCurrentPosition() - TicksToTarget));
         BackLeftWheel.setTargetPosition((int) (BackLeftWheel.getCurrentPosition() - TicksToTarget));
@@ -146,8 +147,8 @@ public class MegalodogChassis {
         double TicksToTarget;
         double TicksPerSecond;
 
-        TicksToTarget = (mmToTarget / (96 * Math.PI)) * 537.7;
-        TicksPerSecond = ((VelocityPercentage * 312) / 60) * 537.7;
+        TicksToTarget = (mmToTarget / ( * Math.PI)) * (ticksPerRevolution;
+        TicksPerSecond = ((VelocityPercentage * RPM) / 60) * ticksPerRevolution;
         // myOpMode.telemetry.addData("ticksToTarget", TicksToTarget);
         //myOpMode.telemetry.update();
         FrontLeftWheel.setTargetPosition((int) (FrontLeftWheel.getCurrentPosition() + TicksToTarget));
@@ -179,8 +180,8 @@ public class MegalodogChassis {
         // diamter of new robot wheels =
         // name is
         // uses the formula we've always had for rotation
-        TicksToTarget = (mmToTarget / (96 * Math.PI)) * 537.7;
-        TicksPerSecond = ((VelocityPercentage * 312) / 60) * 537.7;
+        TicksToTarget = (mmToTarget / (WheelDiameter * Math.PI)) * ticksPerRevolution;
+        TicksPerSecond = ((VelocityPercentage * RPM) / 60) * ticksPerRevolution;
 
         FrontLeftWheel.setTargetPosition((int) (FrontLeftWheel.getCurrentPosition() - TicksToTarget));
         FrontRightWheel.setTargetPosition((int) (FrontRightWheel.getCurrentPosition() + TicksToTarget));
