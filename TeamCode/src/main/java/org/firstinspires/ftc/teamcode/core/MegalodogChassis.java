@@ -11,6 +11,9 @@ public class MegalodogChassis {
     public DcMotor FrontRightWheel;
     public DcMotor BackLeftWheel;
     public DcMotor BackRightWheel;
+    private int wheelDiameter = 104;
+    private int RPM = 435;
+    private double ticksPerRevolution = 384.5;
 
     private LinearOpMode myOpMode;
     public enum Direction {LEFT, CENTER, RIGHT}
@@ -116,8 +119,8 @@ public class MegalodogChassis {
         double TicksToTarget;
         double TicksPerSecond;
 
-        TicksToTarget = (mmToTarget / (96 * Math.PI)) * 537.7;
-        TicksPerSecond = ((VelocityPercentage * 312) / 60) * 537.7;
+        TicksToTarget = (mmToTarget / (wheelDiameter * Math.PI)) * ticksPerRevolution;
+        TicksPerSecond = ((VelocityPercentage * RPM) / 60) * ticksPerRevolution;
         FrontLeftWheel.setTargetPosition((int) (FrontLeftWheel.getCurrentPosition() + TicksToTarget));
         FrontRightWheel.setTargetPosition((int) (FrontRightWheel.getCurrentPosition() - TicksToTarget));
         BackLeftWheel.setTargetPosition((int) (BackLeftWheel.getCurrentPosition() - TicksToTarget));
@@ -146,8 +149,8 @@ public class MegalodogChassis {
         double TicksToTarget;
         double TicksPerSecond;
 
-        TicksToTarget = (mmToTarget / (96 * Math.PI)) * 537.7;
-        TicksPerSecond = ((VelocityPercentage * 312) / 60) * 537.7;
+        TicksToTarget = (mmToTarget / (wheelDiameter * Math.PI)) * ticksPerRevolution;
+        TicksPerSecond = ((VelocityPercentage * RPM) / 60) * ticksPerRevolution;
        // myOpMode.telemetry.addData("ticksToTarget", TicksToTarget);
         //myOpMode.telemetry.update();
         FrontLeftWheel.setTargetPosition((int) (FrontLeftWheel.getCurrentPosition() + TicksToTarget));
@@ -178,8 +181,8 @@ public class MegalodogChassis {
         mmToTarget = degree * (560 / 90);
 
         // uses the formula we've always had for rotation
-        TicksToTarget = (mmToTarget / (96 * Math.PI)) * 537.7;
-        TicksPerSecond = ((VelocityPercentage * 312) / 60) * 537.7;
+        TicksToTarget = (mmToTarget / (wheelDiameter * Math.PI)) * ticksPerRevolution;
+        TicksPerSecond = ((VelocityPercentage * RPM) / 60) * ticksPerRevolution;
 
         FrontLeftWheel.setTargetPosition((int) (FrontLeftWheel.getCurrentPosition() - TicksToTarget));
         FrontRightWheel.setTargetPosition((int) (FrontRightWheel.getCurrentPosition() + TicksToTarget));
