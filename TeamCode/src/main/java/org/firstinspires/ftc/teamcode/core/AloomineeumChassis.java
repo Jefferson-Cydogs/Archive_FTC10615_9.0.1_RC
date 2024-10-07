@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class CThrouxChassis {
+public class AloomineeumChassis {
     public DcMotor FrontLeftWheel;
     public DcMotor FrontRightWheel;
     public DcMotor BackLeftWheel;
@@ -20,7 +20,7 @@ public class CThrouxChassis {
 
     // This is the constructor for the class.  It takes a parameter for currentOp, which allows
     //   it to store and use the current op mode.  The four wheels are initialized here.
-    public CThrouxChassis(LinearOpMode currentOp){
+    public AloomineeumChassis(LinearOpMode currentOp){
 
         // The op mode is important code provided by first.  It has the hardwareMap, sleep function,
         //   and telemetry functions.
@@ -148,7 +148,7 @@ public class CThrouxChassis {
 
         TicksToTarget = (mmToTarget / (96 * Math.PI)) * 537.7;
         TicksPerSecond = ((VelocityPercentage * 312) / 60) * 537.7;
-        // myOpMode.telemetry.addData("ticksToTarget", TicksToTarget);
+       // myOpMode.telemetry.addData("ticksToTarget", TicksToTarget);
         //myOpMode.telemetry.update();
         FrontLeftWheel.setTargetPosition((int) (FrontLeftWheel.getCurrentPosition() + TicksToTarget));
         FrontRightWheel.setTargetPosition((int) (FrontRightWheel.getCurrentPosition() + TicksToTarget));
@@ -176,8 +176,7 @@ public class CThrouxChassis {
 
         // converts degree to a mm distance
         mmToTarget = degree * (560 / 90);
-        // diamter of new robot wheels =
-        // name is
+
         // uses the formula we've always had for rotation
         TicksToTarget = (mmToTarget / (96 * Math.PI)) * 537.7;
         TicksPerSecond = ((VelocityPercentage * 312) / 60) * 537.7;

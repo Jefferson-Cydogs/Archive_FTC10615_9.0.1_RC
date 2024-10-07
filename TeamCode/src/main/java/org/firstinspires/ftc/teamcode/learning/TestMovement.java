@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.configs;
+package org.firstinspires.ftc.teamcode.learning;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -36,7 +36,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @TeleOp
-public class RotationConfig extends LinearOpMode {
+public class TestMovement extends LinearOpMode {
 
     // declare variables here
     //
@@ -66,10 +66,6 @@ public class RotationConfig extends LinearOpMode {
         {
             // do something
             RotateLeft(300, 0.4, 1000);
-        }
-        if(gamepad1.square)
-        {
-            RotateLeftDegree(90, 0.4, 1000);
         }
 
     }
@@ -129,41 +125,6 @@ public class RotationConfig extends LinearOpMode {
         // uses the formula we've always had for rotation
         TicksToTarget = (mmToTarget / (96 * Math.PI)) * 537.7;
         TicksPerSecond = ((VelocityPercentage * 312) / 60) * 537.7;
-        telemetry.addData("RotateLeft mmToTarget", mmToTarget);
-        telemetry.addData("RotateLeft TicksToTarget", TicksToTarget);
-        telemetry.addData("RotateLeft TicksPerSecond", TicksPerSecond);
-        telemetry.update();
-
-        FrontLeftWheel.setTargetPosition((int) (FrontLeftWheel.getCurrentPosition() - TicksToTarget));
-        FrontRightWheel.setTargetPosition((int) (FrontRightWheel.getCurrentPosition() + TicksToTarget));
-        BackLeftWheel.setTargetPosition((int) (BackLeftWheel.getCurrentPosition() - TicksToTarget));
-        BackRightWheel.setTargetPosition((int) (BackRightWheel.getCurrentPosition() + TicksToTarget));
-        ((DcMotorEx) FrontLeftWheel).setVelocity(TicksPerSecond);
-        ((DcMotorEx) FrontRightWheel).setVelocity(TicksPerSecond);
-        ((DcMotorEx) BackLeftWheel).setVelocity(TicksPerSecond);
-        ((DcMotorEx) BackRightWheel).setVelocity(TicksPerSecond);
-
-        while (this.opModeIsActive() && FrontLeftWheel.isBusy() && FrontRightWheel.isBusy() && BackLeftWheel.isBusy() && BackRightWheel.isBusy()) {
-            // Do nothing until at least 1 wheel reaches TargetPosition
-        }
-        this.sleep(WaitTime);
-    }
-
-    public void RotateLeftDegree(int degree, double VelocityPercentage, int WaitTime) {
-           double mmToTarget;
-        double TicksToTarget;
-        double TicksPerSecond;
-
-        // converts degree to a mm distance
-         //   mmToTarget = degree * (560 / 90);
-        mmToTarget = degree * ((double)300 / 90);
-        // uses the formula we've always had for rotation
-        TicksToTarget = (mmToTarget / (96 * Math.PI)) * 537.7;
-        TicksPerSecond = ((VelocityPercentage * 312) / 60) * 537.7;
-        telemetry.addData("RotateLeft mmToTarget", mmToTarget);
-        telemetry.addData("RotateLeft TicksToTarget", TicksToTarget);
-        telemetry.addData("RotateLeft TicksPerSecond", TicksPerSecond);
-        telemetry.update();
 
         FrontLeftWheel.setTargetPosition((int) (FrontLeftWheel.getCurrentPosition() - TicksToTarget));
         FrontRightWheel.setTargetPosition((int) (FrontRightWheel.getCurrentPosition() + TicksToTarget));
